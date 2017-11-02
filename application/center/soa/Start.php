@@ -49,15 +49,16 @@ class Start extends Command
     public function onReceive(\swoole_server $server, int $fd, int $reactor_id, string $data)
     {
         $CenterData = new \app\center\data\Center;
-        $check = $CenterData->checkPushConfig($data);
+        $check = $CenterData->checkPushConfig(substr($data, 4));
         if (!$check['status']){
             echo "MySoa : Error Data validation does not pass\n Info : {$check['msg']} \n";
             #日志记录
+            // 操作完毕关闭会话连接
             return $server->close($fd);
         }
 
         // 调用soa\Center内的操作
-        call_user_func_array([__NAMESPACE__ .'\Center',$check['data']['act']],[$check['data']['data']]);
+        call_user_func_array([__NAMESPACE__ .'\Center',$check['data']['method']],[$check['data']]);
 
         $server->close($fd);
     }
