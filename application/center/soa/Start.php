@@ -4,7 +4,6 @@
  */
 namespace app\center\soa;
 
-use think\Db;
 use app\center\soa\Center;
 use think\console\{Command,Input,Output};
 

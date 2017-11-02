@@ -7,7 +7,7 @@ use think\Validate;
 
 class Center {
     /**
-     * 通信协议内容效验
+     * 服务提供者通信协议内容效验 - 发布注册服务
      * @param string $data['authors_name']  服务提供者
      * @param string $data['account']       服务提供者邮箱
      * @param string $data['ip']            服务IP
@@ -18,7 +18,7 @@ class Center {
      * @param string $data['name']          服务名称
      * @return array
      */
-    public function checkPushConfig(string $value) : array
+    public static function checkPushConfig(string $value) : array
     {
         $data = json_decode($value,true);
 
@@ -56,5 +56,13 @@ class Center {
         }
 
         return ['status'=>true,'msg'=>'验证通过','data'=>$data];
+    }
+
+    /**
+     * 服务消费者通信协议内容效验 - 订阅服务
+     * @return array
+     */
+    public function subscribe(){
+
     }
 }

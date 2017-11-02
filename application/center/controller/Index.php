@@ -9,11 +9,6 @@ class Index extends Controller
      */
     public function index()
     {
-        $result = Db::name('service')->where([
-            ['name','=',1],
-            ['ip','=',2],
-            ['port','=',3]
-        ])->find();halt($result);
         return $this->fetch();
     }
 

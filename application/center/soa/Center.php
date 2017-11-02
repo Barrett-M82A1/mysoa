@@ -38,8 +38,16 @@ class Center {
     }
 
     /**
+     * 订阅服务
+     */
+    public static function subscribe(array $data){
+        // 服务鉴权
+        // 查询可用服务
+        $service = Db::name('service')->where()->select();
+    }
+
+    /**
      * 推送服务配置至消费者
-     * @param $data
      */
     public static function pushService(array $data)
     {
@@ -52,8 +60,8 @@ class Center {
                     ->select();
 
         if ($consumer){
-            // 获取该服务信息
-            $service = Db::name('service')->where('name','=',$data['name'])->select();
+            // 获取可用服务列表
+            $service = Db::name('service')->where('name','=',$data['name'],'status','=',1)->select();
 
             // 推送给个消费者
             foreach ($consumer as $item) {
