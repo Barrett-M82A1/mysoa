@@ -1,6 +1,6 @@
 <?php
 /**
- * TCP控制中心
+ * 服务控制中心
  */
 namespace app\center\soa;
 
@@ -10,73 +10,116 @@ class Center {
     /**
      * 服务注册
      */
-    public static function register(array $data)
+    public static function register(array $data =[])
     {
         $set = [
-            // 设置服务启动时间
+            // 服务启动时间
             'start_time'    =>  date('Y-m-d H:i:s',time()),
-            // 设置服务状态
+
+            // 服务状态
             'status'        =>  1
         ];
 
-        // 检测服务是否存在
-        $check = Db::name('service')->where([
-            ['name','=',$data['name']],
-            ['ip','=',$data['ip']],
-            ['port','=',$data['port']]
-        ])->find();
+        $lists = $data['name'];
 
-        unset($data['method']);
-        if (!$check){
-            Db::name('service')->insert(array_merge($data,$set));
-        }else{
-            Db::name('service')->where('id','=',$check['id'])->update(array_merge($data,$set));
+        unset($data['method'],$data['name']);
+
+        foreach ($lists as $key => $value){
+            // 检测服务是否存在
+            $check = Db::name('service')->where([
+                ['name','=',$value],
+                ['ip','=',$data['ip']],
+                ['port','=',$data['port']]
+            ])->find();
+
+            if (!$check){
+                Db::name('service')->insert(array_merge($data,$set,['name'=>$value]));
+            }else{
+                Db::name('service')->where('id','=',$check['id'])->update(array_merge($data,$set,['name'=>$value]));
+            }
         }
 
         // 通知服务消费者
-        self::pushService($data);
+        self::pushService($data['name']);
     }
 
     /**
      * 订阅服务
      */
-    public static function subscribe(array $data){
+    public static function subscribe(array $data =[]){
         // 服务鉴权
-        // 查询可用服务
-        $service = Db::name('service')->where()->select();
+
+        // 初始化订阅状态
+        Db::name('consumer')->where([
+            ['app_name','=',$data['app_name']],
+            ['ip','=',$data['ip']]
+        ])->update(['status'=>0]);
+
+        $lists = $data['service'];
+
+        unset($data['method'],$data['service']);
+
+        // 注册服务订阅者
+        foreach ($lists as $key => $value){
+            $check = Db::name('consumer')->where([
+                ['app_name','=',$data['app_name']],
+                ['ip','=',$data['ip']],
+                ['port','=',$data['port']]
+            ])->find();
+
+            // 更新服务订阅者
+            if ($check){
+                Db::name('consumer')
+                    ->where('id','=',$check['id'])
+                    ->update(['status'=>1,'notify_port'=>$data['notify_port']]);
+            }else{
+                // 新增服务订阅者
+                Db::name('consumer')->insert(array_merge($data,['service'=>$value]));
+            }
+        }
+
+        // 通知服务消费者
+        self::pushService($data['service']);
     }
 
     /**
      * 推送服务配置至消费者
+     * @param array $service_name 服务名称（可传入多个）
      */
-    public static function pushService(array $data)
+    public static function pushService(array $service_name = [])
     {
         // 查询使用该服务的消费者
-        $consumer = Db::name('consumer')
-                    ->alias('a')
-                    ->where('a.service','=',$data['name'])
-                    ->join('service b','a.service = b.name')
-                    ->field('b.id,b.notify_port')
-                    ->select();
+        $consumer = Db::name('service')->alias('a')
+        ->join('consumer b','b.service = a.name')
+        ->where([
+            ['a.name','in',implode($service_name,',')],
+            ['b.status','=',1]
+        ])
+        ->field('a.*')->select();
 
-        if ($consumer){
-            // 获取可用服务列表
-            $service = Db::name('service')->where('name','=',$data['name'],'status','=',1)->select();
+        if (empty($consumer)){
+            return "MySoa : The request is successful, but the service consumer does not exist!\n";
+        }
 
-            // 推送给个消费者
-            foreach ($consumer as $item) {
-                $client = new \swoole_client(SWOOLE_SOCK_TCP);
-                $client->connect($item['ip'], $item['notify_port'], 0.5);
-                $msg = json_encode([
-                    'action'    => 'configUpdate',
-                    'data'      => $service,
-                ]);
-                $str = pack('N', strlen($msg)) . $msg;
-                $client->send($str);
-                echo 'Mysoa : push '.$item['ip'].':'.$item['notify_port'];
-            }
-        }else{
-            echo "MySoa : The request is successful, but the service consumer does not exist!\n";
+        // 获取可用服务列表
+        $service = Db::name('service')->where([
+            ['name','=',$data['name']],
+            ['status','=',1]
+        ])
+        ->field('start_time,stop_time,status',true)
+        ->select();
+
+        // 推送给个消费者
+        foreach ($consumer as $item) {
+            $client = new \swoole_client(SWOOLE_SOCK_TCP);
+            $client->connect($item['ip'], $item['port'], 0.5);
+            $msg = json_encode([
+                'method'    => 'configUpdate',
+                'data'      => $service,
+            ]);
+            $str = pack('N', strlen($msg)) . $msg;
+            $client->send($str);
+            return 'Mysoa : push '.$item['ip'].':'.$item['port'];
         }
     }
 }

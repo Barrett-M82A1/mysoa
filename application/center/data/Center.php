@@ -33,6 +33,46 @@ class Center {
             'method'        =>  'require',
             'out_time'      =>  'require|number',
             'port'          =>  'require|number',
+            'name'          =>  'require|array'
+        ],[
+            'authors_name.require'  =>  'The [authors_name] parameter cannot be empty!',
+            'account.require'       =>  'The [account] parameter cannot be empty!',
+            'ip.require'            =>  'The [ip] parameter cannot be empty!',
+            'ip.ip'                 =>  'The [ip] parameter is incorrect!',
+            'method.require'        =>  'The [method] parameter cannot be empty!',
+            'out_time.require'      =>  'The [out_time] parameter cannot be empty!',
+            'out_time.number'       =>  'The [out_time] parameter is incorrect!',
+            'port.require'          =>  'The [port] parameter cannot be empty!',
+            'port.number'           =>  'The [port] parameter is incorrect!',
+            'name.require'          =>  'The [name] parameter cannot be empty!',
+            'name.array'            =>  'The [name] parameter is incorrect!'
+        ]);
+
+        if(!$validate->check($data)) {
+            return ['status'=>false,'msg'=>$validate->getError(),'data'=>''];
+        }
+
+        return ['status'=>true,'msg'=>'验证通过','data'=>$data];
+    }
+
+    /**
+     * 服务消费者通信协议内容效验 - 订阅服务
+     * @return array
+     */
+    public function subscribe(array $data){
+        $data = json_decode($value,true);
+
+        if (!is_array($data) || empty($data)){
+            return ['status'=>false,'msg'=>'参数错误','data'=>''];
+        }
+
+        $validate = Validate::make([
+            'authors_name'  =>  'require',
+            'account'       =>  'require',
+            'ip'            =>  'require|ip',
+            'method'        =>  'require',
+            'out_time'      =>  'require|number',
+            'port'          =>  'require|number',
             'notify_port'   =>  'require|number',
             'name'          =>  'require'
         ],[
@@ -56,13 +96,5 @@ class Center {
         }
 
         return ['status'=>true,'msg'=>'验证通过','data'=>$data];
-    }
-
-    /**
-     * 服务消费者通信协议内容效验 - 订阅服务
-     * @return array
-     */
-    public function subscribe(){
-
     }
 }
