@@ -1,7 +1,13 @@
 docker开发环境用
 
+镜像地址：docker pull cmptech/auto_cmp_php_docker_server
+
 //服务中心
 docker run -it -p 0.0.0.0:8081:8081 --name=soa_center -v C:/mysoa:/home/mysoa cmptech/auto_cmp_php_docker_server /bin/sh
 
 //服务提供者
 docker run -it -p 0.0.0.0:8082:8082 --name=soa_provider --link=soa_center:center -v C:/soa/provider-demo:/home/mysoa cmptech/auto_cmp_php_docker_server /bin/sh
+
+进入目录:cd /home/mysoa
+
+启动服务中心：php think start
