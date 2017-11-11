@@ -40,7 +40,7 @@ class Center {
         }
 
         // 通知服务消费者
-        self::pushService($data['name']);
+        self::pushService($lists);
     }
 
     /**
@@ -79,7 +79,7 @@ class Center {
         }
 
         // 通知服务消费者
-        self::pushService($data['service']);
+        self::pushService($lists);
     }
 
     /**
@@ -95,31 +95,35 @@ class Center {
             ['a.name','in',implode($service_name,',')],
             ['b.status','=',1]
         ])
-        ->field('a.*')->select();
-
-        if (empty($consumer)){
-            return "MySoa : The request is successful, but the service consumer does not exist!\n";
-        }
-
-        // 获取可用服务列表
-        $service = Db::name('service')->where([
-            ['name','=',$data['name']],
-            ['status','=',1]
-        ])
-        ->field('start_time,stop_time,status',true)
+        ->field('b.ip,b.notify_port')
+        ->distinct(true)
         ->select();
 
-        // 推送给个消费者
-        foreach ($consumer as $item) {
-            $client = new \swoole_client(SWOOLE_SOCK_TCP);
-            $client->connect($item['ip'], $item['port'], 0.5);
-            $msg = json_encode([
-                'method'    => 'configUpdate',
-                'data'      => $service,
-            ]);
-            $str = pack('N', strlen($msg)) . $msg;
-            $client->send($str);
-            return 'Mysoa : push '.$item['ip'].':'.$item['port'];
+        if (!empty($consumer)){
+            // 获取可用服务列表
+            $service = Db::name('service')->where([
+                ['name','in',implode($service_name,',')],
+                ['status','=',1]
+            ])
+            ->field('id,start_time,stop_time,status',true)
+            ->order('name')
+            ->select();
+
+            $service = json_encode($service);
+
+            // 推送给个消费者
+            foreach ($consumer as $key => $item) {
+                $client = new \swoole_client(SWOOLE_SOCK_TCP);
+                $client->connect($item['ip'], $item['notify_port'], 0.5);
+
+
+                $str = pack('N', strlen($service)).$service;
+                $client->send($str);
+
+                #日志记录推送
+            }
+        }else{
+            echo "MySoa : The request is successful, but the service consumer does not exist!\n";
         }
     }
 }

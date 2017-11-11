@@ -47,8 +47,28 @@ class Start extends Command
     // 收到信息时回调函数
     public function onReceive(\swoole_server $server, int $fd, int $reactor_id, string $data)
     {
+        //反序列化参数
+        $param = json_decode(substr($data, 4),true);
+
         $CenterData = new \app\center\data\Center;
-        $check = $CenterData->checkPushConfig(substr($data, 4));
+
+        //判断操作类型
+        switch ($param['method']){
+            //服务注册
+            case 'register':
+                $check = $CenterData->checkService($param);
+            break;
+
+            //消费者注册
+            case 'subscribe':
+                $check = $CenterData->checkSubscribe($param);
+            break;
+
+            default:
+                echo "MySoa : The [ method ] does not exist";
+                return $server->close($fd);
+        }
+
         if (!$check['status']){
             echo "MySoa : Error Data validation does not pass\n Info : {$check['msg']} \n";
             #日志记录
