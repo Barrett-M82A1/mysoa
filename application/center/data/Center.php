@@ -33,17 +33,17 @@ class Center {
             'port'          =>  'require|number',
             'name'          =>  'require|array'
         ],[
-            'authors_name.require'  =>  'The [authors_name] parameter cannot be empty!',
-            'account.require'       =>  'The [account] parameter cannot be empty!',
-            'ip.require'            =>  'The [ip] parameter cannot be empty!',
-            'ip.ip'                 =>  'The [ip] parameter is incorrect!',
-            'method.require'        =>  'The [method] parameter cannot be empty!',
-            'out_time.require'      =>  'The [out_time] parameter cannot be empty!',
-            'out_time.number'       =>  'The [out_time] parameter is incorrect!',
-            'port.require'          =>  'The [port] parameter cannot be empty!',
-            'port.number'           =>  'The [port] parameter is incorrect!',
-            'name.require'          =>  'The [name] parameter cannot be empty!',
-            'name.array'            =>  'The [name] parameter is incorrect!'
+            'authors_name.require'  =>  "The [authors_name] parameter cannot be empty!\n",
+            'account.require'       =>  "The [account] parameter cannot be empty!\n",
+            'ip.require'            =>  "The [ip] parameter cannot be empty!\n",
+            'ip.ip'                 =>  "The [ip] parameter is incorrect!\n",
+            'method.require'        =>  "The [method] parameter cannot be empty!\n",
+            'out_time.require'      =>  "The [out_time] parameter cannot be empty!\n",
+            'out_time.number'       =>  "The [out_time] parameter is incorrect!\n",
+            'port.require'          =>  "The [port] parameter cannot be empty!\n",
+            'port.number'           =>  "The [port] parameter is incorrect!\n",
+            'name.require'          =>  "The [name] parameter cannot be empty!\n",
+            'name.array'            =>  "The [name] parameter is incorrect!\n"
         ]);
 
         if(!$validate->check($data)) {
@@ -77,16 +77,16 @@ class Center {
             'port'          =>  'require|number',
             'notify_port'   =>  'require|number',
         ],[
-            'app_name.require'      =>  'The [app_name] parameter cannot be empty!',
-            'service.require'       =>  'The [service] parameter cannot be empty!',
-            'service.array'         =>  'The [service] parameter is incorrect!',
-            'ip.require'            =>  'The [ip] parameter cannot be empty!',
-            'ip.ip'                 =>  'The [ip] parameter is incorrect!',
-            'method.require'        =>  'The [method] parameter cannot be empty!',
-            'port.require'          =>  'The [port] parameter cannot be empty!',
-            'port.number'           =>  'The [port] parameter is incorrect!',
-            'notify_port.require'   =>  'The [notify_port] parameter cannot be empty!',
-            'notify_port.number'    =>  'The [notify_port] parameter is incorrect!'
+            'app_name.require'      =>  "The [app_name] parameter cannot be empty!\n",
+            'service.require'       =>  "The [service] parameter cannot be empty!\n",
+            'service.array'         =>  "The [service] parameter is incorrect!\n",
+            'ip.require'            =>  "The [ip] parameter cannot be empty!\n",
+            'ip.ip'                 =>  "The [ip] parameter is incorrect!\n",
+            'method.require'        =>  "The [method] parameter cannot be empty!\n",
+            'port.require'          =>  "The [port] parameter cannot be empty!\n",
+            'port.number'           =>  "The [port] parameter is incorrect!\n",
+            'notify_port.require'   =>  "The [notify_port] parameter cannot be empty!\n",
+            'notify_port.number'    =>  "The [notify_port] parameter is incorrect!\n"
         ]);
 
         if(!$validate->check($data)) {
