@@ -14,7 +14,6 @@ class Center {
      * @param string $data['method']        请求服务中心的方法
      * @param string $data['out_time']      响应超时时间
      * @param string $data['port']          RPC端口
-     * @param string $data['notify_port']   服务中心回调端口
      * @param string $data['name']          服务名称
      * @return array
      */
