@@ -35,7 +35,7 @@ class Center {
             if (!$check){
                 Db::name('service')->insert(array_merge($data,$set,['name'=>$value]));
             }else{
-                Db::name('service')->where('id','=',$check['id'])->update(array_merge($data,$set,['name'=>$value]));
+                Db::name('service')->where('id','=',$check['id'])->update(array_merge($data,$set,['weight'=>50]));
             }
         }
 

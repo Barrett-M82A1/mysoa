@@ -9,7 +9,10 @@ docker run -it -p 0.0.0.0:8081:8081 --name=soa_center -v C:/mysoa:/home/mysoa cm
 docker run -it --name=soa_provider --link=soa_center:center -v C:/soa/soa-provider:/home/provider cmptech/auto_cmp_php_docker_server /bin/sh
 
 //服务消费者
-docker run -it --name=soa_consumer --link=soa_center:center -v C:/soa/soa-consumer:/home/consumer cmptech/auto_cmp_php_docker_server /bin/sh
+docker run -it -p 0.0.0.0:8082:8082 --name=soa_consumer --link=soa_center:center -v C:/soa/soa-consumer:/home/consumer cmptech/auto_cmp_php_docker_server /bin/sh
+
+//测试发包
+docker run -it -v C:/soa/tcp:/home/tcp cmptech/auto_cmp_php_docker_server /bin/sh
 
 进入目录:cd /home/mysoa
 

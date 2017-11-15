@@ -48,7 +48,7 @@ class Start extends Command
     public function onReceive(\swoole_server $server, int $fd, int $reactor_id, string $data)
     {
         //反序列化参数
-        $param = json_decode(json_decode(substr($data, 4),true),true);
+        $param = json_decode(substr($data, 4),true);
 
         $CenterData = new \app\center\data\Center;
 
