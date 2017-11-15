@@ -64,14 +64,15 @@ class Center {
             $check = Db::name('consumer')->where([
                 ['app_name','=',$data['app_name']],
                 ['ip','=',$data['ip']],
-                ['port','=',$data['port']]
+                ['port','=',$data['port']],
+                ['service','=',$value]
             ])->find();
 
             // 更新服务订阅者
             if ($check){
                 Db::name('consumer')
                     ->where('id','=',$check['id'])
-                    ->update(['status'=>1,'notify_port'=>$data['notify_port']]);
+                    ->update(['status'=>1]);
             }else{
                 // 新增服务订阅者
                 Db::name('consumer')->insert(array_merge($data,['service'=>$value]));
