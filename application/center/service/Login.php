@@ -14,7 +14,8 @@ class Login {
      * @param string $ip                登录IP
      * @return array $result['uid']     用户UID
      */
-    public function onLogin(array $param,string $ip){
+    public function onLogin(array $param,string $ip) : array
+    {
         $adminLogic = new \app\center\logic\Admin;
 
         // 检测用户是否存在

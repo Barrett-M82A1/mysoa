@@ -10,7 +10,7 @@ class Admin extends Common{
      * 创建管理员
      * @param  string $param['username'] 用户名
      * @param  string $param['password'] 登录密码
-     * @return array $result['uid']      用户UID
+     * @return array  $result['uid']     用户UID
      */
     public function createAdmin(array $param) : array
     {
@@ -26,8 +26,8 @@ class Admin extends Common{
 
     /**
      * 检测用户是否存在
-     * @param string $userName      用户名
-     * @return array $result['uid'] 用户UID
+     * @param  string $userName      用户名
+     * @return array  $result['uid'] 用户UID
      */
     public function checkUserName(string $userName) : array
     {
