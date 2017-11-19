@@ -11,23 +11,26 @@
     <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
-<div class="logo"></div>
-<form method="post" action="index.html" class="login">
+<div class="logo"><div id="tips"></div></div>
+<form method="post" action="{:url('Login/onLogin')}" class="login layui-form">
     <p>
         <label for="login">用户名:</label>
-        <input type="text" name="login" id="login" value="Enter your username">
+        <input type="text" name="username" id="login" value="" autocomplete="off" placeholder="Enter your username">
     </p>
 
     <p>
         <label for="password">密码:</label>
-        <input type="password" name="password" id="password" value="4815162342">
+        <input type="password" name="password" id="password" value="" autocomplete="off" placeholder="*******">
     </p>
 
-    <p class="login-submit">
-        <button type="submit" class="login-button">Login</button>
-    </p>
+    <div class="login-submit">
+        <button class="login-button" style="outline:none;" lay-submit lay-filter="go">Login</button>
+    </div>
 
     <p class="forgot-password">Copyright ©2017 MySoa Apache 2.0</p>
 </form>
+
+<script src="/static/layui.js" charset="utf-8"></script>
+<script src="/static/js/login.js" charset="utf-8"></script>
 </body>
 </html>

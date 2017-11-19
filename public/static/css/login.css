@@ -113,7 +113,7 @@ input[type=text]:focus, input[type=password]:focus {
 
 label {
   float: left;
-  width: 100px;
+  width: 70px;
   line-height: 40px;
   padding-right: 10px;
   font-weight: 100;
@@ -122,7 +122,7 @@ label {
 }
 
 .forgot-password {
-  padding-left: 100px;
+  padding-left: 40px;
   font-size: 13px;
   font-weight: 100;
   letter-spacing: 1px;
@@ -136,6 +136,7 @@ label {
   width: 48px;
   height: 48px;
   padding: 8px;
+  margin-right: 30px;
   border-radius: 32px;
   -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.35);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.35);
@@ -239,6 +240,6 @@ label {
 .logo {
   width: 222px;
   height:172px;
-  background: url("../images/login_logo.png") 50px 0 no-repeat;
+  background: url("../images/login_logo.png") 25px 0 no-repeat;
   margin: 250px auto 0 auto;
 }
