@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * MySoa  - 登录控制器
+ */
 namespace app\center\controller;
 
 class Login extends Common
@@ -27,7 +29,14 @@ class Login extends Common
 
         // 流程处理
         $loginService = new \app\center\service\Login;
-        $result = $loginService->onLogin($check['data']);
+        $result = $loginService->onLogin($check['data'],$this->request->ip());
         $this->jsonReturn($result);
+    }
+
+    /**
+     * 退出登录
+     */
+    public function outLogin(){
+
     }
 }

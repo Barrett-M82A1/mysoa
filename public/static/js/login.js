@@ -19,13 +19,13 @@ layui.use(['jquery','layer','form'], function(args){
             data:data.field,
             dataType: 'json',
             success: function(data){
-                var url = data.url;
+                var url = data.data;
                 if (data.code === 1){
                     $('layer').tips(data.msg, '#tips',{
                         time:1500,
                         success:function (data) {
                             setTimeout(function(){
-                                //window.location.href = url;
+                                window.location.href = url;
                             },1000);
                         }
                     });
