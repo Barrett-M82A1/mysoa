@@ -15,13 +15,13 @@ class Admin extends Common{
     public function createAdmin(array $param) : array
     {
         // 创建用户
-        $result = $this->data(array_merge($param,['add_time'=>now()]))->save();
+        $result = $this->createData(array_merge($param,['add_time'=>now()]));
 
-        if (!$result){
+        if (!$result['status']){
             return ['status'=>false,'msg'=>'创建用户失败！','data'=>''];
         }
 
-        return ['status'=>true,'msg'=>'创建用户成功！','data'=>$result->uid];
+        return ['status'=>true,'msg'=>'创建用户成功！','data'=>$result['data']->uid];
     }
 
     /**

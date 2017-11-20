@@ -1,8 +1,7 @@
 <?php
 namespace app\center\controller;
-use think\Controller;
-use think\Db;
-class Index extends Controller
+
+class Index extends Token
 {
     /**
      * 首页

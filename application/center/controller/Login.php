@@ -3,6 +3,7 @@
  * MySoa  - 登录控制器
  */
 namespace app\center\controller;
+use think\facade\Session;
 
 class Login extends Common
 {
@@ -36,7 +37,9 @@ class Login extends Common
     /**
      * 退出登录
      */
-    public function outLogin(){
-
+    public function outLogin()
+    {
+        Session::clear();
+        return $this->redirect('Login/index');
     }
 }
