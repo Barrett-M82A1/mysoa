@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{$title}</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">服务治理中心 - MySoa</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item{eq name="Request.controller" value="Service"} layui-this{/eq}">
+                <a href="{:url('Service/index')}">服务管理</a>
+            </li>
+            <li class="layui-nav-item{eq name="Request.controller" value="Monitor"} layui-this{/eq}">
+                <a href="{:url('Monitor/index')}">日志监控</a>
+            </li>
+            <li class="layui-nav-item{eq name="Request.controller" value="System"} layui-this{/eq}">
+                <a href="{:url('System/index')}">系统设置</a>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="/static/images/login_logo.png" class="layui-nav-img">
+                    Admin
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="{:url('System/password')}">修改密码</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="{:url('Login/outLogin')}">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
