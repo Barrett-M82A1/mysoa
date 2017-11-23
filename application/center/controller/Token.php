@@ -33,7 +33,7 @@ class Token extends Common{
 
         // 设置页面导航
         $this->nav = Config::pull('navigation');
-        if ($this->request->controller() === 'Index'){
+        if ($this->request->controller() === 'Index' || !isset($this->nav[$this->request->controller()])){
             $this->assign('nav',$this->nav['service']);
         }else{
             $this->assign('nav',$this->nav[$this->request->controller()]);

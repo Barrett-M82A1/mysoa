@@ -2,7 +2,7 @@
 <ul class="layui-nav layui-nav-tree"  lay-filter="test">
     {volist name="nav" id="nav"}
     <li class="layui-nav-item{if $Request.path eq $nav['url']} layui-this{/if}">
-        <a href=""><i class="layui-icon" style="margin-right: 30px;">&#xe{$nav['ico']};</i>{$nav['name']}</a>
+        <a href="{:url($nav['url'])}"><i class="layui-icon" style="margin-right: 30px;">&#xe602;</i>{$nav['name']}</a>
     </li>
     {/volist}
 </ul>

@@ -11,15 +11,4 @@ class Index extends Token
         $this->setTitle("首页");
         return $this->fetch();
     }
-
-    /**
-     * 服务查询
-     */
-    public function queryService(){
-
-    }
-
-    /**
-     *
-     */
 }
