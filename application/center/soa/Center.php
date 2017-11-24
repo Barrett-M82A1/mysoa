@@ -117,7 +117,6 @@ class Center {
                 $client = new \swoole_client(SWOOLE_SOCK_TCP);
                 $client->connect($item['ip'], $item['notify_port'], 0.5);
 
-
                 $str = pack('N', strlen($service)).$service;
                 $client->send($str);
 

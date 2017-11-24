@@ -46,16 +46,33 @@ class Service extends Common{
     }
 
     /**
-     * 检测用户是否存在
-     * @param  string $userName      用户名
-     * @return array  $result['uid'] 用户UID
+     * 获取实例统计信息
+     * @param  string $param['username'] 用户名
+     * @param  string $param['password'] 登录密码
+     * @return array  $result['uid']     用户UID
      */
-    public function checkUserName(string $userName) : array
+    public function queryInfo(string $name) : array
     {
-        $check = $this->where('username','eq',$userName)->find();
-        if (!$check){
-            return ['status'=>false,'msg'=>'管理员不存在！','data'=>''];
+        // 统计信息
+        $count = [
+            'count'     =>  $this->where('name','=',$name)->count(),
+            'run'       =>  $this->where([['name','=',$name],['status','=',1]])->count(),
+            'error'     =>  $this->where([['name','=',$name],['status','=',2]])->count(),
+            'del'       =>  $this->where([['name','=',$name],['status','=',0]])->count(),
+            'consumer'  =>  $this->table('consumer')->where([['service','=',$name],['status','=',1]])->count()
+        ];
+
+        // 其他服务信息
+        $category = $this->table('category')
+                    ->alias('a')
+                    ->join('category_service b','a.id = b.cid')
+                    ->where([['a.name','=',$name]])
+                    ->field('a.name as category')
+                    ->find();
+        if (!$category){
+            $category = ['category'=>''];
         }
-        return ['status'=>true,'msg'=>'检测通过','data'=>$check];
+
+        return ['status'=>true,'msg'=>'查询成功！','data'=>array_merge($count,$category)];
     }
 }

@@ -49,4 +49,26 @@ class Service extends Token
             'data'  =>  $data['data']->getCollection()
         ]);
     }
+
+    /**
+     * 获取实例信息
+     */
+    public function queryInfo(){
+        $service = new ServiceLogic();
+        $data = $service->queryInfo($this->request->param('name'));
+        $this->jsonReturn($data);
+    }
+
+    /**
+     * 设置实例
+     */
+    public function setExample(){
+        $serviceData = new \app\center\data\Service();
+        $check = $serviceData->checkSet($this->request->param());
+        $this->jsonError($check);
+
+        $service = new \app\center\service\Service();
+        $result = $service->setService($check['data']['param'],$check['data']['id']);
+        $this->jsonReturn($result);
+    }
 }

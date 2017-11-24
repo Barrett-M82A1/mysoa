@@ -24,16 +24,16 @@
             </div>
             <div class="layui-row" style="text-align: center;font-size: 13px;margin-top: 10px">
                 <div class="layui-col-md3">
-                    <div class="grid-demo"><span class="layui-badge layui-bg-cyan">99</span></div>
+                    <div class="grid-demo"><span class="layui-badge layui-bg-cyan" id="service-count"></span></div>
                 </div>
                 <div class="layui-col-md3">
-                    <div class="grid-demo"><span class="layui-badge layui-bg-green">99</span></div>
+                    <div class="grid-demo"><span class="layui-badge layui-bg-green" id="service-run"></span></div>
                 </div>
                 <div class="layui-col-md3">
-                    <div class="grid-demo"><span class="layui-badge">99</span></div>
+                    <div class="grid-demo"><span class="layui-badge" id="service-error"></span></div>
                 </div>
                 <div class="layui-col-md3">
-                    <div class="grid-demo"><span class="layui-badge layui-bg-black">99</span></div>
+                    <div class="grid-demo"><span class="layui-badge layui-bg-black" id="service-del"></span></div>
                 </div>
             </div>
             </blockquote>
@@ -60,13 +60,13 @@
 
             <div class="layui-row" style="text-align: center;font-size: 13px;margin-top: 10px">
                 <div class="layui-col-md3">
-                    <div class="grid-demo"><span class="layui-badge layui-bg-gray">StudentUserService</span></div>
+                    <div class="grid-demo"><span class="layui-badge layui-bg-gray" id="service-name">{$Request.param.name}</span></div>
                 </div>
                 <div class="layui-col-md3">
-                    <div class="grid-demo"><span class="layui-badge layui-bg-gray">用户服务</span></div>
+                    <div class="grid-demo"><span class="layui-badge layui-bg-gray" id="service-category"></span></div>
                 </div>
                 <div class="layui-col-md3">
-                    <div class="grid-demo grid-demo-bg1"><span class="layui-badge layui-bg-cyan">99</span></div>
+                    <div class="grid-demo grid-demo-bg1"><span class="layui-badge layui-bg-cyan" id="service-consumer"></span></div>
                 </div>
                 <div class="layui-col-md3">
                     <div class="grid-demo"><span class="layui-badge layui-bg-cyan">99</span></div>
@@ -87,7 +87,10 @@
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <table id="demo" lay-filter="test"></table>
+                <blockquote class="layui-elem-quote layui-quote-nm">
+                    注：操作服务上线时请确保服务已正常启动！
+                </blockquote>
+                <table id="service-list" lay-filter="service"></table>
             </div>
             <div class="layui-tab-item">
                 2222
@@ -101,10 +104,9 @@
         <legend><i class="layui-icon" style="font-size: 20px; color: #1E9FFF;margin-right: 7px">&#xe63c;</i>备注信息</legend>
     </fieldset>
     <div class="layui-tab layui-tab-card">
-        <div class="layui-tab-content" style="height: 100px;">
-            <div class="layui-tab-item layui-show">
-                备注信息！@#！￥%……&&*
-            </div>
+        <div class="layui-tab-content" style="height: 150px;">
+            <textarea placeholder="备注信息！@#！￥%……&&*" class="layui-textarea" lay-filter="remark"></textarea>
+            <button class="layui-btn" lay-submit="" lay-filter="demo2" style="margin-top: 10px">保存备注</button>
         </div>
     </div>
     <!--服务信息结束-->
@@ -115,5 +117,8 @@
     <a href="/service/info?name={{d.name}}" class="layui-table-link">
         <i class="layui-icon" style="margin-right: 10px;font-size: 14px;color:#009688">&#xe617;</i>{{d.name}}
     </a>
+</script>
+<script type="text/html" id="barDemo">
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="上线|下线" lay-filter="setStatus" {{ d.status == 0 ? 'checked' : '' }}>
 </script>
 {include file="Public/footer"/}
