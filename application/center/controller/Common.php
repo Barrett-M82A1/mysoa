@@ -3,7 +3,9 @@
  * MySoa  - 控制器基类
  */
 namespace app\center\controller;
+
 use think\Controller;
+use think\exception\HttpResponseException;
 
 class Common extends Controller{
 
@@ -18,6 +20,25 @@ class Common extends Controller{
         if (!$data['status']){
             $this->result($data['data'],$code,$data['msg'],'json');
         }
+    }
+
+    /**
+     * 分页数据输出
+     * @param  array $data 业务处理结果
+     * @param  int   $code 错误代码
+     */
+    public function pageReturn($data,$code = 0)
+    {
+        if($data['status']){
+            $code = 1;
+        }
+        $response = json([
+            'code'  =>  $code,
+            'msg'   =>  $data['msg'],
+            'total' =>  $data['data']->total(),
+            'data'  =>  $data['data']->getCollection()
+        ]);
+        throw new HttpResponseException($response);
     }
 
     /**

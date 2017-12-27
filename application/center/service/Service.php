@@ -27,7 +27,7 @@ class Service extends Model{
 
         try {
             $center->pushService([$info['data']['name']]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollback();
             return ['status'=>false,'msg'=>$e->getMessage(),'data'=>''];
         }

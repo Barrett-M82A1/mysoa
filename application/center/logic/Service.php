@@ -14,7 +14,6 @@ class Service extends Common{
      */
     public function queryList() : array
     {
-        // 创建用户
         $result = $this->alias('a')
                 ->field('a.name,a.id,COUNT(*) as num')
                 ->group('a.name')
@@ -37,6 +36,27 @@ class Service extends Common{
     {
         // 创建用户
         $result = $this->where('name','=',$name)->paginate(5,false);
+
+        if (count($result) === 0){
+            return ['status'=>false,'msg'=>'未存在服务！','data'=>''];
+        }
+
+        return ['status'=>true,'msg'=>'查询成功！','data'=>$result];
+    }
+
+    /**
+     * 获取消费者列表
+     * @param  string $name     服务名称
+     * @return array  $result   消费者列表
+     */
+    public function queryConsumer(string $name) : array
+    {
+        $result = $this->alias('a')
+                ->join('consumer b','a.name = b.service')
+                ->where([['b.status','=',1],['a.name','=',$name]])
+                ->field('b.*')
+                ->order('b.id desc')
+                ->paginate(10,false);
 
         if (count($result) === 0){
             return ['status'=>false,'msg'=>'未存在服务！','data'=>''];

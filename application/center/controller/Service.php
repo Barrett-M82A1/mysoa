@@ -28,12 +28,7 @@ class Service extends Token
     public function serviceList(){
         $service = new ServiceLogic();
         $data = $service->queryList();
-        return json([
-            'code'  =>  1,
-            'msg'   =>  $data['msg'],
-            'total' =>  $data['data']->total(),
-            'data'  =>  $data['data']->getCollection()
-        ]);
+        $this->pageReturn($data);
     }
 
     /**
@@ -42,12 +37,16 @@ class Service extends Token
     public function exampleList(){
         $service = new ServiceLogic();
         $data = $service->queryExample($this->request->param('name'));
-        return json([
-            'code'  =>  1,
-            'msg'   =>  $data['msg'],
-            'total' =>  $data['data']->total(),
-            'data'  =>  $data['data']->getCollection()
-        ]);
+        $this->pageReturn($data);
+    }
+
+    /**
+     * 获取消费者列表
+     */
+    public function consumerList(){
+        $service = new ServiceLogic();
+        $data = $service->queryConsumer($this->request->param('name'));
+        $this->pageReturn($data);
     }
 
     /**

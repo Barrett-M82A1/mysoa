@@ -46,7 +46,6 @@ layui.use(['form','element','table','jquery','layer'], function(args){
         limit:5,
         where: {name:name},
         cols: [[
-            {field: 'id',type:'checkbox'},
             {field: 'ip', title: 'IP',sort: true},
             {field: 'port', title: '端口'},
             {field: 'authors_name', title: '开发者'},
@@ -54,6 +53,32 @@ layui.use(['form','element','table','jquery','layer'], function(args){
             {field: 'out_time', title: '超时时间(ms)',edit:'text'},
             {field: 'weight', title: '权重(100以内正整数)',edit:'text'},
             {field: 'status',title: '操作', align:'center', toolbar: '#barDemo'}
+        ]]
+    });
+
+    /**
+     * 消费者列表
+     */
+    $('table').render({
+        elem: '#consumer-list',
+        //数据接口
+        url: '/service/consumerList',
+        //开启分页
+        page: true,
+        response: {
+            statusName: 'code',
+            statusCode: 1,
+            msgName: 'msg',
+            countName: 'total',
+            dataName: 'data'
+        },
+        limit:5,
+        where: {name:name},
+        cols: [[
+            {field: 'app_name', title: '消费者名称'},
+            {field: 'ip', title: 'IP',sort: true},
+            {field: 'port', title: 'RPC端口'},
+            {field: 'notify_port', title: '通知端口'}
         ]]
     });
 
